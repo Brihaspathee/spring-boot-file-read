@@ -1,0 +1,29 @@
+version: '3.8'
+
+# docker run command
+# docker container run --name file-read -e FILE_LOCATION='/files/*.*' --mount type=volume,dst=/files,src=readfiles,volume-driver=local,volume-opt=type=none,volume-opt=o=bind,volume-opt=device=/Users/balajivaradharajan/Documents/Development/Learning/Java/Spring/files vbalaji215/file-read:0.0.1-SNAPSHOT
+# Note: The mount did not work in docker-compose for some reason it worked the first time and after that it was not reflecting any change that is done to the folder
+#       So I switched it to bind mounts and it worked in the docker-compose. I had earlier tested bind mounts with docker run but it was not working, I am not going back
+#       to retest it using docker run as docker-compose is working perfectly fine
+
+services:
+  file-read:
+    image: vbalaji215/file-read:0.0.1-SNAPSHOT
+    container_name: file-read
+    volumes:
+      - /Users/balajivaradharajan/Documents/Development/Learning/Java/Spring/files:/files
+      #- type: volume
+       # source: readfiles
+        #target: /files
+    ports:
+      - "8080:8080"
+    environment:
+      FILE_LOCATION: /files/*.txt
+
+#volumes:
+#  readfiles:
+#    driver: local
+#    driver_opts:
+#      type: volume
+#      o: bind
+#      device: /Users/balajivaradharajan/Documents/Development/Learning/Java/Spring/files
